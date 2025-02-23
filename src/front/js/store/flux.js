@@ -13,12 +13,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			token: localStorage.getItem("token")
 		},
 		actions: {
 
 			login : (email, password) => {
+				console.log("login from actions");
 				const requestOption = {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(
 						{
 							"email" : email,
@@ -27,7 +31,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					)
 				};
-				fetch()
+				fetch(process.env.BACKEND_URL+ "/api/login", requestOption)
+					.then(response => response.json())
+					.then(data => {
+						localStorage.setItem("token", data.access_token);
+						console.log(data.access_token);
+					})
 			},
 
 

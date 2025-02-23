@@ -1,11 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {Context} from "../store/appContext";
 
 const Login = () => {
-    const { actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     function sendData(e) {
     e.preventDefault();
@@ -15,7 +17,11 @@ const Login = () => {
     console.log("Email:", email, "Password", password);
     }
     
-
+    useEffect(() => {
+        if(store.token){
+            navigate("/private")
+        }
+    }, [store.token, navigate]);
 
     return (
     <>
