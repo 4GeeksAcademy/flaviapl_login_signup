@@ -39,6 +39,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 			},
 
+			signup : (email, password) => {
+				console.log("signup from actions");
+				const requestOption = {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(
+						{
+							"email" : email,
+							"password" : password
+						}
+
+					)
+				};
+				fetch(process.env.BACKEND_URL + "/api/signup", requestOption)
+				.then(response => response.json())
+				.then(data => {
+					console.log("User created", data);
+				})
+			},
 
 
 			// Use getActions to call a function within a fuction
