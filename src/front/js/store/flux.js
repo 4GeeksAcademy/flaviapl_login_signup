@@ -14,7 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			token: localStorage.getItem("token")
+			// token: localStorage.getItem("token"),
+			auth: false
 		},
 		actions: {
 
@@ -32,14 +33,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 					)
 				};
 				fetch(process.env.BACKEND_URL+ "/api/login", requestOption)
-					.then(response => response.json())
+					.then(response => { 
+						console.log(response.status);
+						if (response.status == 200) {
+							setStore({auth : true}) 
+						} else {
+							setStore({auth : false});
+						}
+						return response.json()
+					})
 					.then(data => {
 						localStorage.setItem("token", data.access_token);
 						console.log(data.access_token);
 					})
 			},
 
-			signup : (email, password) => {
+
+			logout : () => {
+				console.log("logout desde actions");
+				setStore({auth : false});
+				localStorage.removeItem("token");
+			},
+
+
+			signup : (email, password, navigate) => {
 				console.log("signup from actions");
 				const requestOption = {
 					method: "POST",
@@ -56,6 +73,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(response => response.json())
 				.then(data => {
 					console.log("User created", data);
+					navigate("/");
 				})
 			},
 

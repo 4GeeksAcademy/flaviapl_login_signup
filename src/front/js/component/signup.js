@@ -1,14 +1,16 @@
 import React, { useState ,useContext } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
     const { store, actions } = useContext(Context);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     function sendData(e) {
         e.preventDefault();
-        actions.signup(email, password)
+        actions.signup(email, password, navigate)
 
     }
 

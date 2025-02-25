@@ -17,11 +17,11 @@ const Login = () => {
     console.log("Email:", email, "Password", password);
     }
     
-    useEffect(() => {
-        if(store.token){
-            navigate("/private")
-        }
-    }, [store.token, navigate]);
+    // useEffect(() => {
+    //     if(store.token){
+    //         navigate("/private")
+    //     }
+    // }, [store.token, navigate]);
 
     return (
     <>
